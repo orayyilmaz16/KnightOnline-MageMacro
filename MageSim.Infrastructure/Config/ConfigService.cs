@@ -11,8 +11,18 @@ namespace MageSim.Infrastructure.Config
         private readonly string _path;
         public ConfigService(string path) => _path = path;
 
+
         public async Task<RootConfig> LoadAsync()
         {
+            if (!File.Exists(_path))
+            {
+                var dir = Path.GetDirectoryName(_path);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
+                return new RootConfig();
+            }
+
             string json;
             using (var reader = new StreamReader(_path, Encoding.UTF8))
             {
@@ -25,6 +35,10 @@ namespace MageSim.Infrastructure.Config
 
         public async Task SaveAsync(RootConfig config)
         {
+            var dir = Path.GetDirectoryName(_path);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             var options = new JsonSerializerOptions { WriteIndented = true };
             var json = JsonSerializer.Serialize(config, options);
 
@@ -33,5 +47,6 @@ namespace MageSim.Infrastructure.Config
                 await writer.WriteAsync(json);
             }
         }
+
     }
 }

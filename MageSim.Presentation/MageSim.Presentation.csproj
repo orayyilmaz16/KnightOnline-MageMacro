@@ -19,6 +19,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="config\**" />
+	  <EmbeddedResource Remove="config\**" />
+	  <None Remove="config\**" />
+	  <Page Remove="config\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<!-- XAML dosyaları otomatik olarak Page kabul edilir -->
 		<Page Update="Views\MainWindow.xaml" />
 		<Page Update="App.xaml" />
