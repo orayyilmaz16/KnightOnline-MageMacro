@@ -1,12 +1,27 @@
 ﻿using MageSim.Domain.Events;
 using MageSim.Domain.States;
 using System;
+using System.ComponentModel;
 
 namespace MageSim.Domain.Skills
 {
-    public sealed class CombatContext
+    public sealed class CombatContext : INotifyPropertyChanged
     {
-        public int Mana { get; set; }
+        private int _mana;
+
+        public int Mana
+        {
+            get { return _mana; }
+            set
+            {
+                if (_mana != value)
+                {
+                    _mana = value;
+                    OnPropertyChanged(nameof(Mana));
+                }
+            }
+        }
+
         public bool TargetInRange { get; set; }
         public bool TargetAlive { get; set; }
         public MageState State { get; set; } = MageState.Idle;
@@ -22,7 +37,18 @@ namespace MageSim.Domain.Skills
                 handler(ev);
             }
         }
+
+        // INotifyPropertyChanged implementasyonu
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
-
-
 }
+

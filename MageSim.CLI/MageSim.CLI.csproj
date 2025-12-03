@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="bin\Debug\config\mage-config.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MageSim.Application\MageSim.Application.csproj">

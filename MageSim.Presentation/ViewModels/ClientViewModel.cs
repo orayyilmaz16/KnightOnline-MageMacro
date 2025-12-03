@@ -9,22 +9,36 @@ namespace MageSim.Presentation.ViewModels
     public sealed class ClientViewModel : INotifyPropertyChanged
     {
         public string Id { get; }
-        // target-typed new() yerine açık tip
         public ObservableCollection<SkillViewModel> Skills { get; } = new ObservableCollection<SkillViewModel>();
 
         private int _mana;
         private string _state = "Idle";
 
+        // Artık setter public → TwoWay binding destekler
         public int Mana
         {
-            get { return _mana; }
-            private set { _mana = value; OnPropertyChanged(nameof(Mana)); }
+            get => _mana;
+            set
+            {
+                if (_mana != value)
+                {
+                    _mana = value;
+                    OnPropertyChanged(nameof(Mana));
+                }
+            }
         }
 
         public string State
         {
-            get { return _state; }
-            private set { _state = value; OnPropertyChanged(nameof(State)); }
+            get => _state;
+            set
+            {
+                if (_state != value)
+                {
+                    _state = value;
+                    OnPropertyChanged(nameof(State));
+                }
+            }
         }
 
         public ClientViewModel(string id) { Id = id; }
@@ -54,11 +68,7 @@ namespace MageSim.Presentation.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string n)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(n));
-        }
+        private void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

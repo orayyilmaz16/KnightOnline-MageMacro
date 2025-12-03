@@ -26,6 +26,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="bin\Debug\net481\config\mage-config.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<!-- XAML dosyaları otomatik olarak Page kabul edilir -->
 		<Page Update="Views\MainWindow.xaml" />
 		<Page Update="App.xaml" />
